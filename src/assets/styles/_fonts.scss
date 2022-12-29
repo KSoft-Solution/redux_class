@@ -1,0 +1,11 @@
+@import "./variables";
+// for jura light
+@font-face {
+  font-family: $jura;
+  src: url("../fonts/Jura-Bold.ttf");
+}
+
+@font-face {
+  font-family: $poppins_bold;
+  src: url("../fonts/Poppins-Bold.ttf");
+}
