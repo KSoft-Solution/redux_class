@@ -1,9 +1,18 @@
-import React from 'react'
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+} from "react-router-dom";
+import { Product, Cart, Category } from "./pages";
 
-const App = () => {
-  return (
-    <div>App</div>
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path="/" element={<Product />} />
+      <Route path="cart" element={<Cart />} />
+      <Route path="category" element={<Category />} />
+    </>
   )
-}
+);
+export default router;
 
-export default App
