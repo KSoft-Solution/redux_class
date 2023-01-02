@@ -1,30 +1,107 @@
-import React, { useEffect } from "react";
-import { Loader, Message } from "../../components";
-import { useDispatch, useSelector } from "react-redux";
-import { productAction } from "./redux/action";
 import styles from "./index.module.scss";
+import React from "react";
+import {
+  LaptopOutlined,
+  NotificationOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Breadcrumb, Layout, Menu, theme, Row, Col, Avatar, Image } from "antd";
+const { Header, Content, Sider } = Layout;
 
-const Products = () => {
-  const dispatch = useDispatch();
-  const { loading, data, error } = useSelector((state) => state.productReducer);
+const items1 = ["Products", "Catagories", "Favorites", "Cart"].map((key) => ({
+  key,
+  label: `${key}`,
+}));
+const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
+  (icon, index) => {
+    const key = String(index + 1);
+    return {
+      key: `sub${key}`,
+      icon: React.createElement(icon),
+      label: `subnav ${key}`,
+      children: new Array(4).fill(null).map((_, j) => {
+        const subKey = index * 4 + j + 1;
+        return {
+          key: subKey,
+          label: `option${subKey}`,
+        };
+      }),
+    };
+  }
+);
 
-  useEffect(() => {
-    dispatch(productAction());
-  }, [dispatch]);
-
+const App = () => {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
   return (
-    <div className={styles.container}>
-      {loading && <Loader />}
-      {error && <Message type="error" text={error} />}
-      {data &&
-        data.map((elm) => (
-          <div key={elm.id}>
-            <div>{elm.title}</div>
-            <br />
-          </div>
-        ))}
-    </div>
+    <Layout>
+      <Header className="header">
+        <Row justify="space-between" align='middle'>
+          <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+            <div className={styles.logo} />
+          </Col>
+          <Col xs={24} sm={24} md={12} lg={16} xl={16} className={styles.col}>
+            <Row justify="space-between" align='middle' className={styles.row}>
+              <Menu
+                theme="dark"
+                mode="horizontal"
+                defaultSelectedKeys={["2"]}
+                items={items1}
+              />
+              <Avatar
+                className={styles.logo}
+                icon={<UserOutlined />}
+              />
+            </Row>
+          </Col>
+        </Row>
+      </Header>
+      <Layout>
+        <Sider
+          width={200}
+          style={{
+            background: colorBgContainer,
+          }}
+        >
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={["1"]}
+            defaultOpenKeys={["sub1"]}
+            style={{
+              height: "100%",
+              borderRight: 0,
+            }}
+            items={items2}
+          />
+        </Sider>
+        <Layout
+          style={{
+            padding: "0 24px 24px",
+          }}
+        >
+          <Breadcrumb
+            style={{
+              margin: "16px 0",
+            }}
+          >
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>List</Breadcrumb.Item>
+            <Breadcrumb.Item>App</Breadcrumb.Item>
+          </Breadcrumb>
+          <Content
+            style={{
+              padding: 24,
+              margin: 0,
+              minHeight: 280,
+              background: colorBgContainer,
+            }}
+          >
+            Content
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
   );
 };
-
-export default Products;
+export default App;

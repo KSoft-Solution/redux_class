@@ -1,4 +1,17 @@
-.container{
-    // display: flex;
-    // background: blue;
+.logo {
+  background: red;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.row{
+    width: -webkit-fill-available;
 }
